@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pomodoro"
         mc:Ignorable="d"
-        Title="" Height="300" Width="400"
+        Title="" Height="400" Width="400"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
          TextElement.Foreground="{DynamicResource MaterialDesignBody}"
          TextElement.FontWeight="Regular"
@@ -17,6 +17,7 @@
 
     <Grid Visibility="Visible">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -37,5 +38,6 @@
             </TextBlock>
         </Grid>
         <Label Grid.Row="2" Foreground="AliceBlue"  Name="timerLabel" ContentStringFormat="dd" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        <Button Grid.Row="3" Margin="100 20" Content="Continue" Foreground="AliceBlue" x:Name="Continue" Click="Continue_Click"/>
     </Grid>
 </Window>

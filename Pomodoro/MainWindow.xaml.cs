@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -21,23 +22,72 @@ namespace Pomodoro
     /// </summary>
     public partial class MainWindow : Window
     {
-        DateTime endTime = new DateTime(2021, 01, 15, 0, 0, 0);
+        private readonly int pomodoroLength = 25;
+        int breakLength = 5;
+        bool isPomodoro = true;
+        DateTime endTimePomodoro = DateTime.Now.AddSeconds(5);
+        DateTime endTimeBreak = DateTime.Now.AddSeconds(2);
+
 
         public MainWindow()
         {
             InitializeComponent();
             DispatcherTimer t = new DispatcherTimer();
             t.Tick += new EventHandler(t_Tick);
-            TimeSpan ts = endTime.Subtract(DateTime.Now);
-            ZeroDay.Text = endTime.ToString().Remove(10);
-            timerLabel.Content = (ts.Days.ToString() + " days");
             t.Start();
         }
 
         void t_Tick(object sender, EventArgs e)
         {
-            TimeSpan ts = endTime.Subtract(DateTime.Now);
-            timerLabel.Content = (ts.Days.ToString() + " days");
+            //while (true)
+            {
+
+                TimeSpan ts;
+                if (isPomodoro)
+                {
+                    ts = endTimePomodoro.Subtract(DateTime.Now);
+                    Activity.Text = "Fokussierung";
+                }
+                else
+                {
+                    ts = endTimeBreak.Subtract(DateTime.Now);
+                    Activity.Text = "Pause";
+
+                }
+                timerLabel.Content = (ts.Seconds.ToString() + " Minutes");
+                if (ts.Seconds.ToString() == "-1")
+                {
+                    SystemSounds.Beep.Play();
+                    if (isPomodoro) isPomodoro = false;
+                    else isPomodoro = true;
+                    endTimePomodoro = DateTime.Now.AddSeconds(5);
+                    endTimeBreak = DateTime.Now.AddSeconds(2);
+
+
+                    //if (isPomodoro)
+                    //{
+                    //    ts = endTimeBreak.Subtract(DateTime.Now);
+                    //    isPomodoro = false;
+                    //}
+                    //else
+                    //{
+                    //    ts = endTimePomodoro.Subtract(DateTime.Now);
+                    //    isPomodoro = true;
+                    //}
+
+                }
+            }
+        }
+
+        private void Continue_Click(object sender, RoutedEventArgs e)
+        {
+            if (isPomodoro)
+            {
+                isPomodoro = false;
+            }
+            else isPomodoro = true;
+            endTimePomodoro = DateTime.Now.AddSeconds(5);
+            endTimeBreak = DateTime.Now.AddSeconds(2);
         }
     }
 }
