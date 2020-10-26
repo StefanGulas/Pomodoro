@@ -5,16 +5,12 @@ using System.Windows.Threading;
 
 namespace Pomodoro
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         bool isPomodoro = true;
-        bool isBreak = false;
         bool isInterruption = false;
-        DateTime endTimePomodoro = DateTime.Now.AddSeconds(26);
-        DateTime endTimeBreak = DateTime.Now.AddSeconds(6);
+        DateTime endTimePomodoro = DateTime.Now.AddMinutes(26);
+        DateTime endTimeBreak = DateTime.Now.AddMinutes(6);
         TimeSpan breakTimeSpan;
         TimeSpan ts;
 
@@ -45,14 +41,14 @@ namespace Pomodoro
 
                     }
 
-                    timerLabel.Content = (ts.Seconds.ToString() + " Minuten");
-                    if (ts.Seconds.ToString() == "0")
+                    timerLabel.Content = (ts.Minutes.ToString() + " Minuten");
+                    if (ts.Minutes.ToString() == "0")
                     {
                         SystemSounds.Beep.Play();
                         if (isPomodoro) isPomodoro = false;
                         else isPomodoro = true;
-                        endTimePomodoro = DateTime.Now.AddSeconds(26);
-                        endTimeBreak = DateTime.Now.AddSeconds(6);
+                        endTimePomodoro = DateTime.Now.AddMinutes(26);
+                        endTimeBreak = DateTime.Now.AddMinutes(6);
                     }
                 }
             }
@@ -60,10 +56,8 @@ namespace Pomodoro
 
         private void Continue_Click(object sender, RoutedEventArgs e)
         {
-            if (!isInterruption)
+            if (isInterruption)
             {
-                //endTimePomodoro = DateTime.Now.AddSeconds(26);
-                //endTimeBreak = DateTime.Now.AddSeconds(6);
             }
             else
             {
@@ -77,8 +71,9 @@ namespace Pomodoro
             {
                 isPomodoro = true;
                 Continue.Content = "Fokussierung";
-                    //timerLabel.Content = (ts.Seconds.ToString() + " Minuten");
             }
+                endTimePomodoro = DateTime.Now.AddMinutes(26);
+                endTimeBreak = DateTime.Now.AddMinutes(6);
             }
         }
 
