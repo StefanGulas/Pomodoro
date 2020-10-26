@@ -26,8 +26,8 @@ namespace Pomodoro
         int breakLength = 5;
         bool isPomodoro = true;
         bool isBreak = false;
-        DateTime endTimePomodoro = DateTime.Now.AddSeconds(5);
-        DateTime endTimeBreak = DateTime.Now.AddSeconds(2);
+        DateTime endTimePomodoro = DateTime.Now.AddMinutes(25);
+        DateTime endTimeBreak = DateTime.Now.AddMinutes(5);
 
 
         public MainWindow()
@@ -65,14 +65,14 @@ namespace Pomodoro
                     Activity.Text = "Pause";
 
                 }
-                timerLabel.Content = (ts.Seconds.ToString() + " Minutes");
+                timerLabel.Content = (ts.Minutes.ToString() + " Minutes");
                 if (ts.Seconds.ToString() == "-1")
                 {
                     SystemSounds.Beep.Play();
                     if (isPomodoro) isPomodoro = false;
                     else isPomodoro = true;
-                    endTimePomodoro = DateTime.Now.AddSeconds(5);
-                    endTimeBreak = DateTime.Now.AddSeconds(2);
+                    endTimePomodoro = DateTime.Now.AddMinutes(25);
+                    endTimeBreak = DateTime.Now.AddMinutes(5);
 
 
                     //if (isPomodoro)
@@ -98,8 +98,8 @@ namespace Pomodoro
                 isPomodoro = false;
             }
             else isPomodoro = true;
-            endTimePomodoro = DateTime.Now.AddSeconds(5);
-            endTimeBreak = DateTime.Now.AddSeconds(2);
+            endTimePomodoro = DateTime.Now.AddMinutes(25);
+            endTimeBreak = DateTime.Now.AddMinutes(5);
         }
 
         private void Pause_Click(object sender, RoutedEventArgs e)
@@ -113,8 +113,8 @@ namespace Pomodoro
             {
                 isBreak = false;
             }
-            endTimePomodoro = DateTime.Now.AddSeconds(5);
-            endTimeBreak = DateTime.Now.AddSeconds(2);
+            endTimePomodoro = DateTime.Now.AddMinutes(25);
+            endTimeBreak = DateTime.Now.AddMinutes(5);
         }
     }
 }
