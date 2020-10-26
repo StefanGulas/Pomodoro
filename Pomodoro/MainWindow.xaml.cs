@@ -1,18 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Media;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace Pomodoro
@@ -22,13 +10,13 @@ namespace Pomodoro
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly int pomodoroLength = 25;
-        int breakLength = 5;
         bool isPomodoro = true;
         bool isBreak = false;
-        DateTime endTimePomodoro = DateTime.Now.AddMinutes(25);
-        DateTime endTimeBreak = DateTime.Now.AddMinutes(5);
-
+        bool isInterruption = false;
+        DateTime endTimePomodoro = DateTime.Now.AddSeconds(26);
+        DateTime endTimeBreak = DateTime.Now.AddSeconds(6);
+        TimeSpan breakTimeSpan;
+        TimeSpan ts;
 
         public MainWindow()
         {
@@ -36,85 +24,79 @@ namespace Pomodoro
             DispatcherTimer t = new DispatcherTimer();
             t.Tick += new EventHandler(t_Tick);
             t.Start();
+            Continue.Content = "Pause";
         }
 
         void t_Tick(object sender, EventArgs e)
         {
-            //while (true)
             {
 
-                TimeSpan ts;
-                if (isBreak)
+                if (!isInterruption)
                 {
-                    endTimePomodoro =endTimePomodoro.AddTicks(1);
-                    endTimePomodoro =endTimeBreak.AddTicks(1);
-                    ts = endTimePomodoro.Subtract(DateTime.Now);
-                    
-                }
-                else
-                {
+                    if (isPomodoro)
+                    {
+                        ts = endTimePomodoro.Subtract(DateTime.Now);
+                        Activity.Text = "Fokussierung";
+                    }
+                    else
+                    {
+                        ts = endTimeBreak.Subtract(DateTime.Now);
+                        Activity.Text = "Pause";
 
-                if (isPomodoro)
-                {
-                    ts = endTimePomodoro.Subtract(DateTime.Now);
-                    Activity.Text = "Fokussierung";
-                }
-                else
-                {
-                    ts = endTimeBreak.Subtract(DateTime.Now);
-                    Activity.Text = "Pause";
+                    }
 
-                }
-                timerLabel.Content = (ts.Minutes.ToString() + " Minutes");
-                if (ts.Seconds.ToString() == "-1")
-                {
-                    SystemSounds.Beep.Play();
-                    if (isPomodoro) isPomodoro = false;
-                    else isPomodoro = true;
-                    endTimePomodoro = DateTime.Now.AddMinutes(25);
-                    endTimeBreak = DateTime.Now.AddMinutes(5);
-
-
-                    //if (isPomodoro)
-                    //{
-                    //    ts = endTimeBreak.Subtract(DateTime.Now);
-                    //    isPomodoro = false;
-                    //}
-                    //else
-                    //{
-                    //    ts = endTimePomodoro.Subtract(DateTime.Now);
-                    //    isPomodoro = true;
-                    //}
-
-                }
+                    timerLabel.Content = (ts.Seconds.ToString() + " Minuten");
+                    if (ts.Seconds.ToString() == "0")
+                    {
+                        SystemSounds.Beep.Play();
+                        if (isPomodoro) isPomodoro = false;
+                        else isPomodoro = true;
+                        endTimePomodoro = DateTime.Now.AddSeconds(26);
+                        endTimeBreak = DateTime.Now.AddSeconds(6);
+                    }
                 }
             }
         }
 
         private void Continue_Click(object sender, RoutedEventArgs e)
         {
+            if (!isInterruption)
+            {
+                //endTimePomodoro = DateTime.Now.AddSeconds(26);
+                //endTimeBreak = DateTime.Now.AddSeconds(6);
+            }
+            else
+            {
+
             if (isPomodoro)
             {
                 isPomodoro = false;
+                Continue.Content = "Pause";
             }
-            else isPomodoro = true;
-            endTimePomodoro = DateTime.Now.AddMinutes(25);
-            endTimeBreak = DateTime.Now.AddMinutes(5);
+            else
+            {
+                isPomodoro = true;
+                Continue.Content = "Fokussierung";
+                    //timerLabel.Content = (ts.Seconds.ToString() + " Minuten");
+            }
+            }
         }
 
         private void Pause_Click(object sender, RoutedEventArgs e)
         {
-            if (!isBreak)
+            if (!isInterruption)
             {
-                isBreak = true;
+                if (isPomodoro) breakTimeSpan = endTimePomodoro.Subtract(DateTime.Now);
+                else breakTimeSpan = endTimeBreak.Subtract(DateTime.Now);
+                isInterruption = true;
 
             }
             else
             {
-                isBreak = false;
+                if (isPomodoro) endTimePomodoro = DateTime.Now.Add(breakTimeSpan);
+                else endTimeBreak = DateTime.Now.Add(breakTimeSpan);
+                isInterruption = false;
             }
-            endTimePomodoro = DateTime.Now.AddMinutes(25);
-            endTimeBreak = DateTime.Now.AddMinutes(5);
         }
     }
 }
