@@ -25,6 +25,7 @@ namespace Pomodoro
         private readonly int pomodoroLength = 25;
         int breakLength = 5;
         bool isPomodoro = true;
+        bool isBreak = false;
         DateTime endTimePomodoro = DateTime.Now.AddSeconds(5);
         DateTime endTimeBreak = DateTime.Now.AddSeconds(2);
 
@@ -43,6 +44,16 @@ namespace Pomodoro
             {
 
                 TimeSpan ts;
+                if (isBreak)
+                {
+                    endTimePomodoro =endTimePomodoro.AddTicks(1);
+                    endTimePomodoro =endTimeBreak.AddTicks(1);
+                    ts = endTimePomodoro.Subtract(DateTime.Now);
+                    
+                }
+                else
+                {
+
                 if (isPomodoro)
                 {
                     ts = endTimePomodoro.Subtract(DateTime.Now);
@@ -76,6 +87,7 @@ namespace Pomodoro
                     //}
 
                 }
+                }
             }
         }
 
@@ -86,6 +98,21 @@ namespace Pomodoro
                 isPomodoro = false;
             }
             else isPomodoro = true;
+            endTimePomodoro = DateTime.Now.AddSeconds(5);
+            endTimeBreak = DateTime.Now.AddSeconds(2);
+        }
+
+        private void Pause_Click(object sender, RoutedEventArgs e)
+        {
+            if (!isBreak)
+            {
+                isBreak = true;
+
+            }
+            else
+            {
+                isBreak = false;
+            }
             endTimePomodoro = DateTime.Now.AddSeconds(5);
             endTimeBreak = DateTime.Now.AddSeconds(2);
         }
