@@ -20,6 +20,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" Margin="50 30 20 20" Text="Pomodoro" Foreground="AliceBlue" FontFamily="{DynamicResource MaterialDesignFont}" FontSize="30"/>
@@ -47,5 +48,8 @@
         <Button Grid.Row="1" Margin="100 0 100 20" Content="Unterbrechen" Foreground="AliceBlue" x:Name="Pause" Click="Pause_Click"/>
             
         </Grid>
+        <DockPanel  VerticalAlignment="Bottom" Margin="20 40" HorizontalAlignment="Right">
+            <TextBlock x:Name="Unterbrochen" Text="Unterbrochen" Foreground="AliceBlue" FontStyle="Italic" FontSize="14"/>
+        </DockPanel>
     </Grid>
 </Window>

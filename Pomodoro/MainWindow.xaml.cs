@@ -21,6 +21,7 @@ namespace Pomodoro
             t.Tick += new EventHandler(t_Tick);
             t.Start();
             Continue.Content = "Pause";
+            Unterbrochen.Visibility = Visibility.Hidden;
         }
 
         void t_Tick(object sender, EventArgs e)
@@ -84,6 +85,7 @@ namespace Pomodoro
                 if (isPomodoro) breakTimeSpan = endTimePomodoro.Subtract(DateTime.Now);
                 else breakTimeSpan = endTimeBreak.Subtract(DateTime.Now);
                 isInterruption = true;
+                Unterbrochen.Visibility = Visibility.Visible;
 
             }
             else
@@ -91,6 +93,7 @@ namespace Pomodoro
                 if (isPomodoro) endTimePomodoro = DateTime.Now.Add(breakTimeSpan);
                 else endTimeBreak = DateTime.Now.Add(breakTimeSpan);
                 isInterruption = false;
+                Unterbrochen.Visibility = Visibility.Hidden;
             }
         }
     }
