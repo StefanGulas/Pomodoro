@@ -23,7 +23,9 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Margin="50 30 20 20" Text="Pomodoro" Foreground="AliceBlue" FontFamily="{DynamicResource MaterialDesignFont}" FontSize="30"/>
+        <TextBlock Grid.Row="0" Margin="50 20 20 0" Text="Pomodoro" Height="40" Foreground="AliceBlue" FontFamily="{DynamicResource MaterialDesignFont}" FontSize="30"/>
+        <TextBlock Foreground="AliceBlue" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="50 -20 0 30" Text="Anzahl: "/>
+        <TextBlock Foreground="AliceBlue" x:Name="AnzahlPomodoros" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="100 -20 0 30"/>
         <Grid Grid.Row="1" HorizontalAlignment="Center">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
